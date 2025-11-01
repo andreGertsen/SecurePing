@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SecurePing</title>
+        <link rel="stylesheet" href="/css/index-style.css">
+    </head>
+    <body>
+        <header>
+            <div id="topNavBar_ID">
+                <h1>SecurePing</h1>
+            </div>
+            <br>
+            <div id="logIndContainer_ID">
+                <h2>Log ind</h2>
+                <hr>
+                <form action="/login" method="POST">
+                    <label for="email">Email:</label><br>
+                    <input id="email" name="email" required><br><br>
+                
+                    <label for="adgangskode">Adgangskode:</label><br>
+                    <input type="password" id="adgangskode" name="adgangskode" required><br><br>
+                    <hr>
+                    <button type="submit">Log ind</button>
+                </form>
+            </div>
+        </header>
+    </body>
+</html>
+
+<style>
+    body{
+        margin: 0;
+        background-image: url('wallpaper.jpg');
+        background-size: cover;
+    }
+    #topNavBar_ID{
+        display: inline-block;
+        margin: 0;
+        width: 100%;
+        background-color: blue;
+    }
+    h1{
+        color: #ffffff;
+        font-family: monospace;
+        font-weight: normal;
+        margin: 0;
+        text-align: center;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        font-size: 250%;
+    }
+    #logIndContainer_ID{
+        background-color: blue;
+        font-family: monospace;
+        color: white;
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    #logIndContainer_ID h2{
+        margin: 0;
+        text-align: center;
+    }
+    #logIndContainer_ID input{
+        outline: none;
+        border: none;
+    }
+</style>
