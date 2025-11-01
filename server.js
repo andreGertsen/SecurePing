@@ -45,6 +45,6 @@ app.post('/login', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+app.listen(PORT, '159.65.120.94', () => {
+  console.log(`Server running at http://159.65.120.94:${PORT}`);
 });
