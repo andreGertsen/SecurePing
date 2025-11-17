@@ -20,6 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files (like CSS, JS, images)
 app.use(express.static('public'));
 
+app.get('/', (req, res) => {
+  res.redirect('/index'); // sender alle requests til /index
+});
+
 // Route for GET /
 app.get('/index', (req, res) => {
   // Example data object
