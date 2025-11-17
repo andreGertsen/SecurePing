@@ -24,70 +24,83 @@
                     <th>Type</th>
                     <th>Land</th>
                 </tr>
-                <tr>
+                <tr id="tr1">
                     <td>02:06</td>
                     <td>192.168.0.1</td>
                     <td>GET</td>
+                    <td>DK</td>
                 </tr>
                 <tr>
                     <td>12:06</td>
                     <td>203.279.1.2</td>
                     <td>GET</td>
+                    <td>DK</td>
                 </tr>
                 <tr>
                     <td>13:20</td>
                     <td>314.380.2.3</td>
                     <td>POST</td>
+                    <td>DK</td>
                 </tr>
                 <tr>
                     <td>02:06</td>
                     <td>192.168.0.1</td>
                     <td>GET</td>
+                    <td>DK</td>
                 </tr>
                 <tr>
                     <td>12:06</td>
                     <td>203.279.1.2</td>
                     <td>GET</td>
+                    <td>RU</td>
                 </tr>
                 <tr>
                     <td>13:20</td>
                     <td>314.380.2.3</td>
                     <td>POST</td>
+                    <td>DK</td>
                 </tr>
                 <tr>
                     <td>02:06</td>
                     <td>192.168.0.1</td>
                     <td>GET</td>
+                    <td>RU</td>
                 </tr>
                 <tr>
                     <td>12:06</td>
                     <td>203.279.1.2</td>
                     <td>GET</td>
+                    <td>NO</td>
                 </tr>
                 <tr>
                     <td>13:20</td>
                     <td>314.380.2.3</td>
                     <td>POST</td>
+                    <td>RU</td>
                 </tr>
                 <tr>
                     <td>02:06</td>
                     <td>192.168.0.1</td>
                     <td>GET</td>
+                    <td>US</td>
                 </tr>
                 <tr>
                     <td>12:06</td>
                     <td>203.279.1.2</td>
                     <td>GET</td>
+                    <td>DK</td>
                 </tr>
                 <tr>
                     <td>13:20</td>
                     <td>314.380.2.3</td>
                     <td>POST</td>
+                    <td>DK</td>
                 </tr>
                 <tr>
                     <td>02:06</td>
                     <td>192.168.0.1</td>
                     <td>GET</td>
+                    <td>DK</td>
                 </tr>
                 <tr>
                     <td>12:06</td>
@@ -363,7 +376,10 @@ table {
     }
     nedtællingTilNæsteOpdatering();
 
-    function lavTrafikListe{
-        
-    }
+    document.getElementById("tr1").onclick = function() {myFunction()};
+
+    function myFunction() {
+  document.getElementById("tr1").style.backgroundColor = "rgba(0,0,255,0.20)";
+  
+}
 </script>
