@@ -1,3 +1,11 @@
+/* 
+HVORDAN MAN PULLER OG GENSTARTER PÅ DROPLETTEN
+cd ditrepo
+git pull
+pm2 restart myapp
+*/
+
+
 // app.js
 const express = require('express');
 const app = express();
@@ -49,5 +57,5 @@ app.post('/login', (req, res) => {
 
 // Start server
 app.listen(PORT, 'localhost', () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running at http://159.65.120.94:${PORT}`);
 });
