@@ -37,7 +37,10 @@ app.post('/login', (req, res) => {
   console.log('Adgangskode:', adgangskode);
 
   // Simpelt tjek — i praksis ville du slå brugeren op i en database
-  if (email === 'boi' && adgangskode === '123') {
+
+  let banned = ['boi', 'soy', 'loi'];
+  
+  if (!banned.includes(email)) {
     res.send('✅ Login succesfuldt!');
   } else {
     res.send('❌ Forkert email eller adgangskode.');
@@ -45,6 +48,6 @@ app.post('/login', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, '159.65.120.94', () => {
-  console.log(`Server running at http://159.65.120.94:${PORT}`);
+app.listen(PORT, 'localhost', () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });

@@ -3,6 +3,8 @@
     <head>
         <title>SecurePing</title>
         <link rel="stylesheet" href="/css/index-style.css">
+          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
     </head>
     <body>
         <header>
@@ -10,20 +12,217 @@
                 <h1>SecurePing</h1>
             </div>
             <br>
-            <div id="logIndContainer_ID">
-                <h2>Log ind</h2>
-                <hr>
-                <form action="/login" method="POST">
-                    <label for="email">Email:</label><br>
-                    <input id="email" name="email" required><br><br>
-                
-                    <label for="adgangskode">Adgangskode:</label><br>
-                    <input type="password" id="adgangskode" name="adgangskode" required><br><br>
-                    <hr>
-                    <button type="submit">Log ind</button>
-                </form>
-            </div>
         </header>
+        
+        <h2>Sidst opdateret: 22:51 &nbsp;&nbsp; <span id="næsteOpdatering_ID">Næste opdatering om: </span></h2>
+
+        <div id="trafficListContainer_ID">
+            <table>
+                <tr>
+                    <th>Tid</th>
+                    <th>IP-adresse</th>
+                    <th>Type</th>
+                </tr>
+                <tr>
+                    <td>02:06</td>
+                    <td>192.168.0.1</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>12:06</td>
+                    <td>203.279.1.2</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>13:20</td>
+                    <td>314.380.2.3</td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                    <td>02:06</td>
+                    <td>192.168.0.1</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>12:06</td>
+                    <td>203.279.1.2</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>13:20</td>
+                    <td>314.380.2.3</td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                    <td>02:06</td>
+                    <td>192.168.0.1</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>12:06</td>
+                    <td>203.279.1.2</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>13:20</td>
+                    <td>314.380.2.3</td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                    <td>02:06</td>
+                    <td>192.168.0.1</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>12:06</td>
+                    <td>203.279.1.2</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>13:20</td>
+                    <td>314.380.2.3</td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                    <td>02:06</td>
+                    <td>192.168.0.1</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>12:06</td>
+                    <td>203.279.1.2</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>13:20</td>
+                    <td>314.380.2.3</td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                    <td>02:06</td>
+                    <td>192.168.0.1</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>12:06</td>
+                    <td>203.279.1.2</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>13:20</td>
+                    <td>314.380.2.3</td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                    <td>02:06</td>
+                    <td>192.168.0.1</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>12:06</td>
+                    <td>203.279.1.2</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>13:20</td>
+                    <td>314.380.2.3</td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                    <td>02:06</td>
+                    <td>192.168.0.1</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>12:06</td>
+                    <td>203.279.1.2</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>13:20</td>
+                    <td>314.380.2.3</td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                    <td>02:06</td>
+                    <td>192.168.0.1</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>12:06</td>
+                    <td>203.279.1.2</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>13:20</td>
+                    <td>314.380.2.3</td>
+                    <td>POST</td>
+                </tr>
+            </table>
+            <button id="blokerIPButton_ID" style="float: left;">Bloker</button>
+        </div>
+        
+        <div>
+        <div id="nøgletalContainer_ID">
+            <div>
+                <span><b>Gennemsnit Roundtrip time</b></span>
+                <br>
+                <span>334 ms</span>
+            </div>
+            <br>
+            <div>
+                <span><b>Gennemsnit Responstid</b></span>
+                <br>
+                <span>634 ms</span>
+            </div>
+        </div>
+        <br>
+        <div id="rateLimitKonfigContainer_ID">
+            <span><b>Ændre rate limit konfiguration</b></span>
+            <br><br>
+            <span>Antal forespørgsler pr. minut</span>
+            <br>
+            <input type="number" min="1" max="10000"><button>Udfør</button>
+        </div>
+        <br>
+        <div id="sendDriftsmiddelelse_ID">
+            <span><b>Send driftsmeddelelse</b></span>
+            <textarea rows="3">
+            </textarea>
+            <span>Telefon</span><input type="checkbox">
+            <br>
+            <span>E-mail</span><input type="checkbox">
+            <br><br>
+            <button>Send</button>
+        </div>
+        <!--
+        <div id="mapContainer_ID">
+            <div id="map"></div>
+        </div>
+
+        
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// Lav kortet (zoom 2 viser hele verden)
+const map = L.map('map').setView([55.6761, 12.5683], 7);
+
+// OpenStreetMap (gratis, ingen API-nøgle)
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+  attribution: '© Carto © OpenStreetMap'
+}).addTo(map);
+
+
+// Eksempel: tilføj nogle markører
+
+L.marker([55.64183072744912, 12.086701444558841]).addTo(map).bindPopup("New York");
+L.marker([55.64183072744912, 12.186701444558841]).addTo(map).bindPopup("New York");
+L.marker([55.67781137158207, 12.556479350821713]).addTo(map).bindPopup("New York");
+
+
+
+</script>
+--->
     </body>
 </html>
 
@@ -41,7 +240,8 @@
     }
     h1{
         color: #ffffff;
-        font-family: monospace;
+        /* font-family: monospace;*/
+        font-family: input mono;
         font-weight: normal;
         margin: 0;
         text-align: center;
@@ -49,22 +249,120 @@
         padding-bottom: 1%;
         font-size: 250%;
     }
-    #logIndContainer_ID{
-        background-color: blue;
-        font-family: monospace;
-        color: white;
+    h2{
+        font-family: input mono;
+        font-size: 80%;
+        font-weight: normal;
+        margin: 1% 0% 1% 2%;
+    }
+    
+    #trafficListContainer_ID{
+        background-color: #ffffff;
         display: inline-block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        border: 1px solid gray;
+        height: 400px;
+        overflow-y: auto;
+        margin-left: 2%;
+        margin-top: 0%;
+        float: left;
     }
-    #logIndContainer_ID h2{
-        margin: 0;
-        text-align: center;
-    }
-    #logIndContainer_ID input{
-        outline: none;
-        border: none;
-    }
+    
+    table, td, th {
+  border-left: 1px solid gray;
+  padding: 1px 20px 1px 20px;
+   font-family: arial;
+   font-size: 90%;
+ 
+}
+tr:hover {
+  border-left: 1px solid;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+}
+#blokerIPButton_ID{
+    background-color: blue;
+    color: white;
+    font-family: input mono;
+    outline: none;
+    border: none;
+    display: inline-block;
+    width: 21.5%;
+    margin-left: 2%;
+    margin-top: 1%;
+}
+#blokerIPButton_ID:hover{
+    background-color: red;
+    cursor: pointer;
+}
+#nøgletalContainer_ID{
+    display: inline-block;
+    background-color: white;
+    border: 1px solid gray;
+    font-family: arial;
+    margin-top: 0%;
+    margin-left: 2%;
+    padding: 0.75%;
+    width: 25%;
+    font-size: 85%;
+}
+#sendDriftsmiddelelse_ID{
+    display: inline-block;
+    background-color: white;
+    border: 1px solid gray;
+    font-family: arial;
+    margin-top: 2%;
+    margin-left: 2%;
+    padding: 0.75%;
+    width: 25%;
+    font-size: 85%;
+}
+#sendDriftsmiddelelse_ID textarea{
+    width: 98%;
+    border: 1px solid gray;
+    outline: none;
+    font-family: arial;
+}
+#rateLimitKonfigContainer_ID{
+    display: inline-block;
+    background-color: white;
+    border: 1px solid gray;
+    font-family: arial;
+    margin-top: 2%;
+    margin-left: 2%;
+    padding: 0.75%;
+    width: 25%;
+    font-size: 85%;
+}
+#rateLimitKonfigContainer_ID input{
+    outline: none;
+    font-family: arial;
+}
+#mapContainer_ID{
+    float: right;
+    border: 1px solid gray;
+}
+ #map { width: 500px; height: 500px; margin: 0;}
 </style>
+
+<script>
+    function nedtællingTilNæsteOpdatering(){
+        var incomeTicker = 60;
+        
+        window.setInterval(function(){
+            if (incomeTicker > 0)
+            incomeTicker--;
+        document.getElementById("næsteOpdatering_ID").innerHTML = "Næste opdatering om: " + incomeTicker + " sek.";
+        if (incomeTicker <= 0)
+        incomeTicker = 60;
+    }, 1000);
+    }
+    nedtællingTilNæsteOpdatering();
+
+    function lavTrafikListe{
+        
+    }
+</script>
