@@ -1,6 +1,6 @@
 /* 
 HVORDAN MAN PULLER OG GENSTARTER PÅ DROPLETTEN
-cd ditrepo
+cd SecurePing
 git pull
 pm2 restart myapp
 */
@@ -56,6 +56,6 @@ app.post('/login', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, 'localhost', () => {
+app.listen(PORT, '159.65.120.94/', () => {
   console.log(`Server running at http://159.65.120.94:${PORT}`);
 });
