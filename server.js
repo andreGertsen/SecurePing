@@ -61,5 +61,5 @@ app.post('/login', (req, res) => {
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running at http://159.65.120.94:${PORT}`);
+  console.log(`Server running at http://167.99.140.208:${PORT}`);
 });
