@@ -25,28 +25,31 @@ app.get('/', (req, res) => {
 });
 
 // Route for GET /
+const express = require('express');
+const app = express();
+const PORT = 3000;
 
-setInterval(function() {
+app.set('view engine', 'ejs');
 
-  
+let data = {
+  title: 'My EJS Example',
+  message: 'Hello from Node.js and EJS!',
+  user: { name: 'Alice', age: 25 },
+  hobbies: ['coding', 'music', 'gaming']
+};
+
+// Route
 app.get('/index', (req, res) => {
-  // Example data object
-  const data = {
-    title: 'My EJS Example',
-    message: 'Hello from Node.js and EJS!',
-    user: {
-      name: 'Alice',
-      age: 25
-    },
-    hobbies: ['coding', 'music', 'gaming']
-  };
-
-  // Render index.ejs and pass data to it
   res.render('index', data);
 });
+
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running at http://167.99.140.208:${PORT}`);
 });
 
+// Hvis du vil opdatere data hvert sekund
+setInterval(() => {
+  data.message = 'Updated at ' + new Date().toLocaleTimeString();
 }, 1000);
+
