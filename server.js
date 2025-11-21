@@ -38,10 +38,9 @@ setInterval(() => {
 }, 1000);
 
 
-// Route der sender GET request til loadbalanceren
 app.get('/call-other-server', async (req, res) => {
   try {
-    const response = await fetch("http://138.197.183.51:3000/array");
+    const response = await fetch("http://138.197.183.51:8080/array");
     const result = await response.json();
 
     console.log("Modtaget array:", result);
@@ -57,6 +56,7 @@ app.get('/call-other-server', async (req, res) => {
     });
   }
 });
+
 
 
 
