@@ -13,6 +13,10 @@
             </div>
             <br>
         </header>
+
+        <h1 id="message"><%= message %></h1>
+  <p>User: <%= user.name %>, Age: <%= user.age %></p>
+  <p>Hobbies: <%= hobbies.join(', ') %></p>
         
         <h2>Sidst opdateret: 22:51 &nbsp;&nbsp; <span id="næsteOpdatering_ID">Næste opdatering om: </span></h2>
 
@@ -220,3 +224,17 @@ table {
 }
  #map { width: 500px; height: 500px; margin: 0;}
 </style>
+
+<script>
+// Opdater message hvert sekund
+setInterval(async () => {
+  try {
+    const res = await fetch('/api/data');
+    const data = await res.json();
+    document.getElementById('message').textContent = data.message;
+  } catch (err) {
+    console.error('Fejl ved hentning af data:', err);
+  }
+}, 1000);
+
+</script>

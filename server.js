@@ -11,25 +11,8 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-// Set EJS as the template engine
 app.set('view engine', 'ejs');
-
-// Middleware til at parse data fra formularer (application/x-www-form-urlencoded)
-app.use(express.urlencoded({ extended: true }));
-
-// Serve static files (like CSS, JS, images)
-app.use(express.static('public'));
-
-app.get('/', (req, res) => {
-  res.redirect('/index'); // sender alle requests til /index
-});
-
-// Route for GET /
-const express = require('express');
-const app = express();
-const PORT = 3000;
-
-app.set('view engine', 'ejs');
+app.use(express.static('public')); // til JS-filen på klienten
 
 let data = {
   title: 'My EJS Example',
@@ -38,18 +21,22 @@ let data = {
   hobbies: ['coding', 'music', 'gaming']
 };
 
-// Route
+// Route til EJS-side
 app.get('/index', (req, res) => {
   res.render('index', data);
 });
 
-// Start server
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running at http://167.99.140.208:${PORT}`);
+// API-route til at hente data dynamisk
+app.get('/api/data', (req, res) => {
+  res.json(data);
 });
 
-// Hvis du vil opdatere data hvert sekund
+// Opdater data hvert sekund
 setInterval(() => {
   data.message = 'Updated at ' + new Date().toLocaleTimeString();
 }, 1000);
 
+// Start server
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
