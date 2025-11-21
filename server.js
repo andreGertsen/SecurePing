@@ -25,6 +25,10 @@ app.get('/', (req, res) => {
 });
 
 // Route for GET /
+
+setInterval(function() {
+
+  
 app.get('/index', (req, res) => {
   // Example data object
   const data = {
@@ -40,26 +44,9 @@ app.get('/index', (req, res) => {
   // Render index.ejs and pass data to it
   res.render('index', data);
 });
-
-app.post('/login', (req, res) => {
-  const { email, adgangskode } = req.body;
-
-  console.log('Modtaget login:');
-  console.log('Email:', email);
-  console.log('Adgangskode:', adgangskode);
-
-  // Simpelt tjek — i praksis ville du slå brugeren op i en database
-
-  let banned = ['boi', 'soy', 'loi'];
-  
-  if (!banned.includes(email)) {
-    res.send('✅ Login succesfuldt!');
-  } else {
-    res.send('❌ Forkert email eller adgangskode.');
-  }
-});
-
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running at http://167.99.140.208:${PORT}`);
 });
+
+}, 1000);
