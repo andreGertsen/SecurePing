@@ -15,10 +15,10 @@ app.set('view engine', 'ejs');
 app.use(express.static('public')); // til JS-filen på klienten
 
 let data = {
-  title: 'My EJS Example',
-  message: 'Hello from Node.js and EJS!',
-  user: { name: 'Alice', age: 25 },
-  hobbies: ['coding', 'music', 'gaming']
+  tid: '02:46',
+  ip: 'My EJS Example',
+  type: 'Hello from Node.js and EJS!',
+  land: 'DK'
 };
 
 // Route til EJS-side
