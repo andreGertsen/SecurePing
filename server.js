@@ -46,7 +46,6 @@ app.get('/call-other-server', async (req, res) => {
 
     console.log("Modtaget array:", result);
 
-
     res.json({
       status: "success",
       dataModtaget: result
