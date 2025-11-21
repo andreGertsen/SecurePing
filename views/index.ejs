@@ -227,7 +227,7 @@ table {
 </style>
 
 <script>
-// Opdater message hvert sekund
+// Opdater message hvert minut
 setInterval(async () => {
   try {
     const res = await fetch('/api/data');
@@ -236,6 +236,6 @@ setInterval(async () => {
   } catch (err) {
     console.error('Fejl ved hentning af data:', err);
   }
-}, 1000);
+}, 60000);
 
 </script>
