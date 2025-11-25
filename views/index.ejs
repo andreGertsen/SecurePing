@@ -30,6 +30,45 @@
                 </tbody>
             </table>
 
+
+<script>
+    function insertRow(entry) {
+    const tableBody = document.querySelector("#logTable tbody");
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${entry.timestamp}</td>
+        <td>${entry.ip}</td>
+        <td>${entry.method}</td>
+        <td>${entry.url}</td>
+    `;
+
+    tableBody.appendChild(row);
+}
+
+async function fetchNewData() {
+    try {
+        const response = await fetch('/call-other-server');
+        const json = await response.json();
+
+        if (json.status === "success") {
+            // json.data er array fra loadbalancer
+            json.data.forEach(entry => insertRow(entry));
+        }
+    } catch (err) {
+        console.error("Kunne ikke hente data:", err);
+    }
+}
+
+// Hent nyt data hvert 2. sekund
+setInterval(fetchNewData, 2000);
+
+// Hent med det samme ved load
+fetchNewData();
+
+</script>
+
+
 <script>
 function insertRow(dataModtaget) {
     console.log("boi loves suck");
@@ -43,14 +82,6 @@ function insertRow(dataModtaget) {
         <td>${dataModtaget.method}</td>
         <td>${dataModtaget.url}</td>
     `;
-/*
-    method: req.method,
-    url: req.url,
-    headers: req.headers,       // <-- virker nu
-    ip: clientIP,               // <-- tilføjet
-    timestamp: new Date().toISOString()
-*/    
-
     tableBody.appendChild(row);
 }
     insertRow();

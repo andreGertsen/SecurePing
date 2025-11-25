@@ -48,14 +48,11 @@ setInterval(() => {
 app.get('/call-other-server', async (req, res) => {
   try {
     const response = await fetch("http://138.197.183.51:8080/array");
-    const result = await response.json();
-
-    const dataModtaget = await response.json();
-
+    const data = await response.json();
 
     res.json({
       status: "success",
-      dataModtaget: result
+      data
     });
   } catch (error) {
     res.json({
@@ -64,6 +61,9 @@ app.get('/call-other-server', async (req, res) => {
     });
   }
 });
+
+
+
 
 
 
