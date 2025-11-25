@@ -11,19 +11,6 @@
             </div>
             <br>
         </header>
-
-        <ul>
-  <% dataModtaget.forEach(entry => { %>
-    <li>
-      Tid: <%= entry.timestamp %><br>
-      IP: <%= entry.headers?.['x-forwarded-for'] || 'ukendt' %><br>
-      Type: <%= entry.method %><br>
-      URL: <%= entry.url %><br>
-      <hr>
-    </li>
-  <% }) %>
-</ul>
-
 <script>
     function addLogRow(entry) {
     const tableBody = document.getElementById("logTable").querySelector("tbody");
@@ -44,6 +31,7 @@
 
     tableBody.appendChild(row);
 }
+addLogRow(entry);
 
 </script>
 
