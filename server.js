@@ -23,7 +23,8 @@ let data = {
 
 // Route til EJS-side
 app.get('/index', (req, res) => {
-  res.render('index', data);
+  res.render('index', { dataModtaget });
+  console.log("Modtaget array:", result);
 });
 
 // API-route til at hente data dynamisk
@@ -43,7 +44,8 @@ app.get('/call-other-server', async (req, res) => {
     const response = await fetch("http://138.197.183.51:8080/array");
     const result = await response.json();
 
-    console.log("Modtaget array:", result);
+    const dataModtaget = await response.json();
+
 
     res.json({
       status: "success",
@@ -56,10 +58,6 @@ app.get('/call-other-server', async (req, res) => {
     });
   }
 });
-
-
-
-
 
 
 
