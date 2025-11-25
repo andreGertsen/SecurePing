@@ -21,9 +21,7 @@ app.get('/index', async (req, res) => {
     const dataModtaget = await response.json();
 
     // Begræns til max 200 entries (fjern ældste)
-    if (data.length > 20) {
-      data = data.slice(-20);
-    }
+  
 
     res.render('index', { dataModtaget });
   } catch (error) {
@@ -37,9 +35,6 @@ app.get('/call-other-server', async (req, res) => {
     const data = await response.json();
 
     // Begræns til max 200 entries (fjern ældste)
-    if (data.length > 20) {
-      data = data.slice(-20);
-    }
 
     res.json({
       status: "success",
