@@ -14,18 +14,16 @@ const PORT = 3000;
 app.set('view engine', 'ejs');
 app.use(express.static('public')); // til JS-filen på klienten
 
-let data = {
-  tid: '02:46',
-  ip: 'My EJS Example',
-  type: 'Hello from Node.js and EJS!',
-  land: 'DK'
-};
-
 // Route til EJS-side
 app.get('/index', async (req, res) => {
   try {
     const response = await fetch("http://138.197.183.51:8080/array");
     const dataModtaget = await response.json();
+
+    // Begræns til max 200 entries (fjern ældste)
+    if (data.length > 20) {
+      data = data.slice(-20);
+    }
 
     res.render('index', { dataModtaget });
   } catch (error) {
@@ -33,22 +31,15 @@ app.get('/index', async (req, res) => {
   }
 });
 
-// API-route til at hente data dynamisk
-app.get('/api/data', (req, res) => {
-  res.json(data);
-});
-
-
-// Opdater data hvert sekund
-setInterval(() => {
-  data.message = 'Updated at ' + new Date().toLocaleTimeString();
-}, 1000);
-
-
 app.get('/call-other-server', async (req, res) => {
   try {
     const response = await fetch("http://138.197.183.51:8080/array");
     const data = await response.json();
+
+    // Begræns til max 200 entries (fjern ældste)
+    if (data.length > 20) {
+      data = data.slice(-20);
+    }
 
     res.json({
       status: "success",
@@ -61,11 +52,6 @@ app.get('/call-other-server', async (req, res) => {
     });
   }
 });
-
-
-
-
-
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {

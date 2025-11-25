@@ -32,7 +32,10 @@
 
 
 <script>
-    function insertRow(entry) {
+// Track hvilke logs vi allerede har tilføjet
+const seenEntries = new Set();
+
+function insertRow(entry) {
     const tableBody = document.querySelector("#logTable tbody");
 
     const row = document.createElement("tr");
@@ -52,42 +55,31 @@ async function fetchNewData() {
         const json = await response.json();
 
         if (json.status === "success") {
-            // json.data er array fra loadbalancer
-            json.data.forEach(entry => insertRow(entry));
+
+            json.data.forEach(entry => {
+                // Brug timestamp som unik nøgle (eller en log-ID hvis du har én)
+                const key = entry.timestamp + entry.ip + entry.method + entry.url;
+
+                // Spring over hvis vi allerede har tilføjet den
+                if (!seenEntries.has(key)) {
+                    seenEntries.add(key);
+                    insertRow(entry);
+                }
+            });
         }
+
     } catch (err) {
         console.error("Kunne ikke hente data:", err);
     }
 }
 
-// Hent nyt data hvert 2. sekund
-setInterval(fetchNewData, 2000);
+// Hent data hvert minut
+setInterval(fetchNewData, 60000);
 
-// Hent med det samme ved load
+// Hent første gang med det samme
 fetchNewData();
-
 </script>
 
-
-<script>
-function insertRow(dataModtaget) {
-    console.log("boi loves suck");
-    const tableBody = document.querySelector("#logTable tbody");
-
-    const row = document.createElement("tr");
-
-    row.innerHTML = `
-        <td>${dataModtaget.timestamp}</td>
-        <td>${dataModtaget.ip}</td>
-        <td>${dataModtaget.method}</td>
-        <td>${dataModtaget.url}</td>
-    `;
-    tableBody.appendChild(row);
-}
-    insertRow();
-
-
-</script>
 
             <button id="blokerIPButton_ID" style="float: left;">Bloker</button>
         </div>
@@ -256,6 +248,7 @@ table {
 </style>
 
 <script>
+    /*
 // Opdater message hvert minut
 setInterval(async () => {
   try {
@@ -266,5 +259,5 @@ setInterval(async () => {
     console.error('Fejl ved hentning af data:', err);
   }
 }, 60000);
-
+*/
 </script>
