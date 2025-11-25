@@ -38,11 +38,18 @@ function insertRow(dataModtaget) {
     const row = document.createElement("tr");
 
     row.innerHTML = `
-        <td>${dataModtaget.tid}</td>
+        <td>${dataModtaget.timestamp}</td>
         <td>${dataModtaget.ip}</td>
-        <td>${dataModtaget.type}</td>
+        <td>${dataModtaget.method}</td>
         <td>${dataModtaget.url}</td>
     `;
+/*
+    method: req.method,
+    url: req.url,
+    headers: req.headers,       // <-- virker nu
+    ip: clientIP,               // <-- tilføjet
+    timestamp: new Date().toISOString()
+*/    
 
     tableBody.appendChild(row);
 }
