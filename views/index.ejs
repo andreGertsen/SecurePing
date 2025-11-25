@@ -16,7 +16,7 @@
   <% dataModtaget.forEach(entry => { %>
     <li>
       Tid: <%= entry.timestamp %><br>
-      IP: <%= entry.headers['x-forwarded-for'] || 'ukendt' %><br>
+      IP: <%= entry.headers?.['x-forwarded-for'] || 'ukendt' %><br>
       Type: <%= entry.method %><br>
       URL: <%= entry.url %><br>
       <hr>
