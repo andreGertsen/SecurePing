@@ -11,29 +11,6 @@
             </div>
             <br>
         </header>
-<script>
-    function addLogRow(entry) {
-    const tableBody = document.getElementById("logTable").querySelector("tbody");
-
-    const tid = entry.timestamp;
-    const ip = entry.headers?.["x-forwarded-for"] || "ukendt";
-    const type = entry.method;
-    const url = entry.url;
-
-    const row = document.createElement("tr");
-
-    row.innerHTML = `
-        <td>${tid}</td>
-        <td>${ip}</td>
-        <td>${type}</td>
-        <td>${url}</td>
-    `;
-
-    tableBody.appendChild(row);
-}
-addLogRow(entry);
-
-</script>
 
         
         <h2>Sidst opdateret: 22:51 &nbsp;&nbsp; <span id="næsteOpdatering_ID">Næste opdatering om: </span></h2>
@@ -53,6 +30,111 @@ addLogRow(entry);
 
             <button id="blokerIPButton_ID" style="float: left;">Bloker</button>
         </div>
+
+        <table id="logTable">
+  <thead>
+    <tr>
+      <th>Tid</th>
+      <th>IP</th>
+      <th>Type</th>
+      <th>URL</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+  // Robust addLogRow: opretter tbody/table hvis nødvendigt og undgår XSS ved at bruge textContent
+  function addLogRow(entry) {
+    if (!entry) {
+      console.error("addLogRow kaldt uden entry");
+      return;
+    }
+
+    // Find tabel og tbody, opret hvis ikke fundet
+    let table = document.getElementById("logTable");
+    if (!table) {
+      console.warn("logTable ikke fundet — opretter ny tabel.");
+      table = document.createElement("table");
+      table.id = "logTable";
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Tid</th><th>IP</th><th>Type</th><th>URL</th>
+          </tr>
+        </thead>
+      `;
+      document.body.appendChild(table);
+    }
+
+    let tbody = table.querySelector("tbody");
+    if (!tbody) {
+      tbody = document.createElement("tbody");
+      table.appendChild(tbody);
+    }
+
+    const tid = entry.timestamp ?? "ukendt tid";
+    const ip = entry.headers?.["x-forwarded-for"] || "ukendt";
+    const type = entry.method ?? "ukendt";
+    const url = entry.url ?? "ukendt";
+
+    const tr = document.createElement("tr");
+
+    const tdTid = document.createElement("td");
+    tdTid.textContent = tid;
+    tr.appendChild(tdTid);
+
+    const tdIp = document.createElement("td");
+    tdIp.textContent = ip;
+    tr.appendChild(tdIp);
+
+    const tdType = document.createElement("td");
+    tdType.textContent = type;
+    tr.appendChild(tdType);
+
+    const tdUrl = document.createElement("td");
+    tdUrl.textContent = url;
+    tr.appendChild(tdUrl);
+
+    tbody.appendChild(tr);
+  }
+
+  // --- Tre måder at sikre at funktionen bliver kaldt ---
+
+  // 1) Kald direkte (hvis 'entry' er tilgængelig på server-renderingstidspunktet)
+  // EJS indsætter værdierne direkte i JS-objektet. Sørg for at entry eksisterer i din EJS context.
+  // Hvis entry ikke findes på serveren, vil EJS feje det væk — men vi bruger et fallback til {}.
+  const serverEntry = {
+    timestamp: "<%= entry?.timestamp ?? '' %>",
+    // Bemærk: vi indsætter XFF direkte; hvis header ikke findes, kommer tom streng.
+    headers: { "x-forwarded-for": "<%= entry?.headers?.['x-forwarded-for'] ?? '' %>" },
+    method: "<%= entry?.method ?? '' %>",
+    url: "<%= entry?.url ?? '' %>"
+  };
+
+  // Hvis du vil kalde funktionen med serverEntry direkte:
+  // addLogRow(serverEntry);
+
+  // 2) Kald på DOMContentLoaded (sikker hvis tabellen er i DOM eller script er i head)
+  document.addEventListener("DOMContentLoaded", function () {
+    // Hvis du bruger server-side EJS og vil have én række per entry:
+    // uncomment nedenstående linje for at indsætte den serverEntry efter DOM er klar:
+    addLogRow(serverEntry);
+
+    // Hvis du har flere entries: (eksempel)
+    // const entries = <%- JSON.stringify(entriesArray || []) %>;
+    // entries.forEach(e => addLogRow(e));
+  });
+
+  // 3) Eksponer funktionen globalt så du kan kalde den fra console eller andre scripts
+  window.addLogRow = addLogRow;
+
+  // Fejlsøgningstips: åben devtools og skriv:
+  // console.log("serverEntry:", serverEntry);
+  // addLogRow(serverEntry);
+</script>
+
+
         
         <div>
         <div id="nøgletalContainer_ID">
