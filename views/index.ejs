@@ -61,8 +61,6 @@ function highlightSameIP(ip) {
 
     selectedIPs = ""; // nulstil hver gang man klikker en ny række
 
-    console.log("yo nigga er det virkelig de her ip'er du ville blokkere: " + selectedIPs);
-
     rows.forEach(row => {
         row.classList.remove("highlight");
 
@@ -106,6 +104,33 @@ setInterval(fetchNewData, 60000);
 
 // Hent første gang med det samme
 fetchNewData();
+
+
+
+
+document.getElementById('sætRateLimit_ID').addEventListener('click', () => {
+    const rate = document.getElementById('rateLimit_ID').value;
+
+    fetch('/set-rate-limit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ rate: parseInt(rate) }) // sender rate som JSON
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Fejl ved opdatering');
+        return response.json();
+    })
+    .then(data => {
+        alert('Rate limit opdateret: ' + data.rate);
+    })
+    .catch(err => {
+        console.error(err);
+        alert('Noget gik galt');
+    });
+});
+
 </script>
 
 
@@ -128,11 +153,11 @@ fetchNewData();
         </div>
         <br>
         <div id="rateLimitKonfigContainer_ID">
-            <span><b>Ændre rate limit konfiguration</b></span>
+            <span><b>Ændre rate limit</b></span>
             <br><br>
             <span>Antal forespørgsler pr. minut</span>
             <br>
-            <input type="number" min="1" max="10000"><button>Udfør</button>
+            <input type="number" min="1" max="10000" id="rateLimit_ID"><button id="sætRateLimit_ID">Udfør</button>
         </div>
         <br>
         <div id="sendDriftsmiddelelse_ID">

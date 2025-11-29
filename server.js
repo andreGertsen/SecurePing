@@ -71,6 +71,16 @@ app.get('/call-other-server', async (req, res) => {
 });
 
 
+app.post('/set-rate-limit', (req, res) => {
+  const { rate } = req.body;
+
+  console.log("Ny rate limit modtaget");
+
+  // indsæt kode der kan sende videre til loadbalanceren
+
+  res.json({rate, message: 'rate limit opdateret' });
+})
+
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running at http://localhost:${PORT}`);
