@@ -107,35 +107,6 @@ fetchNewData();
 
 </script>
 
-<script>
-    document.getElementById('sætRateLimit_ID').addEventListener('click', () => {
-    const rate = document.getElementById('rateLimit_ID').value;
-
-    console.log("soy");
-
-    fetch('/set-rate-limit', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ rate: parseInt(rate) }) // sender rate som JSON
-    })
-    .then(response => {
-        if (!response.ok) throw new Error('Fejl ved opdatering');
-        return response.json();
-    })
-    .then(data => {
-        alert('Rate limit opdateret: ' + data.rate);
-    })
-    .catch(err => {
-        console.error(err);
-        alert('Noget gik galt');
-    });
-});
-
-</script>
-
-
             <button id="blokerIPButton_ID" style="float: left;">Bloker</button>
         </div>
         
@@ -300,3 +271,32 @@ table {
     background-color: lightgray;
 }
 </style>
+
+
+<script>
+    document.getElementById('sætRateLimit_ID').addEventListener('click', () => {
+    const rate = document.getElementById('rateLimit_ID').value;
+
+    console.log("soy");
+
+    fetch('/set-rate-limit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ rate: parseInt(rate) }) // sender rate som JSON
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Fejl ved opdatering');
+        return response.json();
+    })
+    .then(data => {
+        alert('Rate limit opdateret: ' + data.rate);
+    })
+    .catch(err => {
+        console.error(err);
+        alert('Noget gik galt');
+    });
+});
+
+</script>
