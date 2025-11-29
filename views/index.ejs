@@ -23,6 +23,7 @@
                         <th>IP</th>
                         <th>Type</th>
                         <th>URL</th>
+                        <th>Land</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,11 +44,13 @@ function insertRow(entry) {
 
     const row = document.createElement("tr");
     row.innerHTML = `
-        <td class="ts">${entry.timestamp}</td>
-        <td class="ip">${entry.ip}</td>
-        <td>${entry.method}</td>
-        <td>${entry.url}</td>
-    `;
+    <td class="ts">${entry.timestamp}</td>
+    <td class="ip">${entry.ip}</td>
+    <td>${entry.method}</td>
+    <td>${entry.url}</td>
+    <td class="country">${entry.country}</td>   <!-- NY KOLONNE -->
+`;
+
 
     // Tilføj click-handler
     row.addEventListener("click", () => highlightSameIP(entry.ip));
@@ -267,6 +270,7 @@ table {
 }
 
 .highlight {
-    background-color: lime;
+    background-color: gray;
+    color: white;
 }
 </style>
