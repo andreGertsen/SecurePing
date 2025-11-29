@@ -48,21 +48,28 @@ app.get('/index', async (req, res) => {
 app.get('/call-other-server', async (req, res) => {
   try {
     const response = await fetch("http://138.197.183.51:8080/array");
-    const data = await response.json();
+    let data = await response.json();
 
-    // Begræns til max 200 entries (fjern ældste)
+    data = await Promise.all(
+      data.map(async entry => {
+        try {
+          const resp = await fetch(`http://ip-api.com/json/${entry.ip}?fields=countryCode`);
+          const geo = await resp.json();
+          entry.country = geo.countryCode || "UNKNOWN";
+        } catch {
+          entry.country = "UNKNOWN";
+        }
+        return entry;
+      })
+    );
 
-    res.json({
-      status: "success",
-      data
-    });
+    res.json({ status: "success", data });
+
   } catch (error) {
-    res.json({
-      status: "error",
-      message: error.message
-    });
+    res.json({ status: "error", message: error.message });
   }
 });
+
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
