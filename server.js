@@ -14,23 +14,6 @@ const PORT = 3000;
 app.set('view engine', 'ejs');
 app.use(express.static('public')); // til JS-filen på klienten
 
-app.get('/api/country', async (req, res) => {
-  const ip = req.query.ip;
-  if (!ip) return res.status(400).json({ error: "Missing IP" });
-
-  try {
-    const response = await fetch(`http://ip-api.com/json/${ip}?fields=countryCode`);
-    const data = await response.json();
-
-    const country = data.countryCode || "UNKNOWN";
-    res.json({ ip, country });
-
-  } catch (err) {
-    res.json({ ip, country: "UNKNOWN" });
-  }
-});
-
-
 
 // Route til EJS-side
 app.get('/index', async (req, res) => {
