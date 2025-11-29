@@ -19,14 +19,17 @@ app.get('/api/country', async (req, res) => {
   if (!ip) return res.status(400).json({ error: "Missing IP" });
 
   try {
-    const response = await fetch(`https://ipapi.co/${ip}/country/`);
-    const country = (await response.text()).trim();
+    const response = await fetch(`http://ip-api.com/json/${ip}?fields=countryCode`);
+    const data = await response.json();
 
-    res.json({ ip, country: country || "UNKNOWN" });
+    const country = data.countryCode || "UNKNOWN";
+    res.json({ ip, country });
+
   } catch (err) {
     res.json({ ip, country: "UNKNOWN" });
   }
 });
+
 
 
 // Route til EJS-side
@@ -35,16 +38,14 @@ app.get('/index', async (req, res) => {
     const response = await fetch("http://138.197.183.51:8080/array");
     let dataModtaget = await response.json();
 
-    // Max 200 entries
-    dataModtaget = dataModtaget.slice(-200);
+    dataModtaget = dataModtaget.slice(-200); // max 200
 
-    // For hvert entry → hent landekoden
     const enriched = await Promise.all(
       dataModtaget.map(async entry => {
         try {
-          const resp = await fetch(`https://ipapi.co/${entry.ip}/country/`);
-          const country = (await resp.text()).trim();
-          entry.country = country || "UNKNOWN";
+          const resp = await fetch(`http://ip-api.com/json/${entry.ip}?fields=countryCode`);
+          const data = await resp.json();
+          entry.country = data.countryCode || "UNKNOWN";
         } catch {
           entry.country = "UNKNOWN";
         }
@@ -57,6 +58,7 @@ app.get('/index', async (req, res) => {
     res.render('index', { dataModtaget: [] });
   }
 });
+
 
 
 app.get('/call-other-server', async (req, res) => {
