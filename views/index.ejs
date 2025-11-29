@@ -59,7 +59,7 @@ function insertRow(entry) {
 function highlightSameIP(ip) {
     const rows = document.querySelectorAll("#logTable tbody tr");
 
-    selectedIPs = []; // nulstil hver gang man klikker en ny række
+    selectedIPs = ""; // nulstil hver gang man klikker en ny række
 
     console.log("yo nigga er det virkelig de her ip'er du ville blokkere: " + selectedIPs);
 
@@ -69,8 +69,8 @@ function highlightSameIP(ip) {
         const rowIP = row.querySelector(".ip")?.textContent;
         if (rowIP === ip) {
             row.classList.add("highlight");
-            selectedIPs.push(rowIP);
         }
+        selectedIPs += rowIP; // sæt IP der skal blokkeres
     });
 
     console.log("Valgte IP'er:", selectedIPs);
