@@ -70,7 +70,7 @@ function highlightSameIP(ip) {
         if (rowIP === ip) {
             row.classList.add("highlight");
         }
-        selectedIPs += rowIP; // sæt IP der skal blokkeres
+        selectedIPs = rowIP; // sæt IP der skal blokkeres
     });
 
     console.log("Valgte IP'er:", selectedIPs);
