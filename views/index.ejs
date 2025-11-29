@@ -111,6 +111,8 @@ fetchNewData();
 document.getElementById('sætRateLimit_ID').addEventListener('click', () => {
     const rate = document.getElementById('rateLimit_ID').value;
 
+    console.log("soy");
+
     fetch('/set-rate-limit', {
         method: 'POST',
         headers: {
