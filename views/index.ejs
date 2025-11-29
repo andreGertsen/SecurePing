@@ -35,19 +35,44 @@
 // Track hvilke logs vi allerede har tilføjet
 const seenEntries = new Set();
 
+// Array til at samle IP-adresser fra markeringer
+let selectedIPs = [];
+
 function insertRow(entry) {
     const tableBody = document.querySelector("#logTable tbody");
 
     const row = document.createElement("tr");
     row.innerHTML = `
-        <td>${entry.timestamp}</td>
-        <td>${entry.ip}</td>
+        <td class="ts">${entry.timestamp}</td>
+        <td class="ip">${entry.ip}</td>
         <td>${entry.method}</td>
         <td>${entry.url}</td>
     `;
 
+    // Tilføj click-handler
+    row.addEventListener("click", () => highlightSameIP(entry.ip));
+
     tableBody.appendChild(row);
 }
+
+function highlightSameIP(ip) {
+    const rows = document.querySelectorAll("#logTable tbody tr");
+
+    selectedIPs = []; // nulstil hver gang man klikker en ny række
+
+    rows.forEach(row => {
+        row.classList.remove("highlight");
+
+        const rowIP = row.querySelector(".ip")?.textContent;
+        if (rowIP === ip) {
+            row.classList.add("highlight");
+            selectedIPs.push(rowIP);
+        }
+    });
+
+    console.log("Valgte IP'er:", selectedIPs);
+}
+
 
 async function fetchNewData() {
     try {
@@ -240,24 +265,8 @@ table {
     outline: none;
     font-family: arial;
 }
-#mapContainer_ID{
-    float: right;
-    border: 1px solid gray;
-}
- #map { width: 500px; height: 500px; margin: 0;}
-</style>
 
-<script>
-    /*
-// Opdater message hvert minut
-setInterval(async () => {
-  try {
-    const res = await fetch('/api/data');
-    const data = await res.json();
-    document.getElementById('message').textContent = data.message;
-  } catch (err) {
-    console.error('Fejl ved hentning af data:', err);
-  }
-}, 60000);
-*/
-</script>
+.highlight {
+    background-color: lime;
+}
+</style>
