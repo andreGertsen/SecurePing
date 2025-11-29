@@ -72,14 +72,19 @@ app.get('/call-other-server', async (req, res) => {
 
 
 app.post('/set-rate-limit', (req, res) => {
-  const { rate } = req.body;
+    const { rate } = req.body;
 
-  console.log("Ny rate limit modtaget");
+    if (!rate || typeof rate !== 'number' || rate <= 0) {
+        return res.status(400).json({ error: 'Ugyldig rate værdi' });
+    }
 
-  // indsæt kode der kan sende videre til loadbalanceren
+    console.log('Ny rate limit modtaget:', rate);
 
-  res.json({rate, message: 'rate limit opdateret' });
-})
+    // Her kan du sende rate videre til loadbalanceren
+    // fx via en funktion: updateLoadBalancerRate(rate);
+
+    res.json({ rate, message: 'Rate limit opdateret på serveren' });
+});
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
