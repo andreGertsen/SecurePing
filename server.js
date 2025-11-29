@@ -15,6 +15,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public')); // til JS-filen på klienten
 
 
+
 // Route til EJS-side
 app.get('/index', async (req, res) => {
   try {

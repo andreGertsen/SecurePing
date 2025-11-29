@@ -48,7 +48,7 @@ function insertRow(entry) {
     <td class="ip">${entry.ip}</td>
     <td>${entry.method}</td>
     <td>${entry.url}</td>
-    <td class="country">${entry.country}</td>   <!-- NY KOLONNE -->
+    <td>${entry.country}</td>   <!-- NY KOLONNE -->
 `;
     // Tilføj click-handler
     row.addEventListener("click", () => highlightSameIP(entry.ip));
@@ -84,7 +84,7 @@ async function fetchNewData() {
 
             json.data.forEach(entry => {
                 // Brug timestamp som unik nøgle (eller en log-ID hvis du har én)
-                const key = entry.timestamp + entry.ip + entry.method + entry.url;
+                const key = entry.timestamp + entry.ip + entry.method + entry.url + entry.country;
 
                 // Spring over hvis vi allerede har tilføjet den
                 if (!seenEntries.has(key)) {
