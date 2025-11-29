@@ -13,6 +13,7 @@ const PORT = 3000;
 
 app.set('view engine', 'ejs');
 app.use(express.static('public')); // til JS-filen på klienten
+app.use(express.json());
 
 
 
