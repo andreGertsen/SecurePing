@@ -81,17 +81,22 @@ async function fetchNewData() {
 
         if (json.status === "success") {
 
+            let added = false; // ← MANGLEDE !!
+
             json.data.forEach(entry => {
-                // Brug timestamp som unik nøgle (eller en log-ID hvis du har én)
                 const key = entry.timestamp + entry.ip + entry.method + entry.url + entry.country;
 
-                // Spring over hvis vi allerede har tilføjet den
                 if (!seenEntries.has(key)) {
                     seenEntries.add(key);
                     insertRow(entry);
+                    added = true; // ← NU BLIVER TOP-3 AKTIVERET
                 }
             });
-            if (added) highLightMistænkeligeIPer(); // kalder farve markering af rækker
+
+            // Her var fejlen: dette blev aldrig sandt før
+            if (added) {
+                highLightMistænkeligeIPer();
+            }
         }
 
     } catch (err) {
@@ -99,10 +104,11 @@ async function fetchNewData() {
     }
 }
 
+
 // Hent data hvert minut
 setInterval(fetchNewData, 60000);
 
-document.addEventListener("DOMContentLoaded", highLightMistænkeligeIPer); // lav farve markering ved hjemmeside load
+
 
 // Hent første gang med det samme
 fetchNewData();
