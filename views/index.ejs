@@ -74,43 +74,6 @@ function highlightSameIP(ip) {
     console.log("Valgte IP'er:", selectedIPs);
 }
 
-function highLightMistænkeligeIPer() {
-    const rows = Array.from(document.querySelectorAll("#logTable tbody tr"));
-    const counts = {};
-
-    // 1. Tæl IP'er
-    rows.forEach(row => {
-        const cell = row.cells[0]; // IP-kolonnen
-        if (!cell) return;
-        const ip = cell.textContent.trim();
-        counts[ip] = (counts[ip] || 0) + 1;
-    });
-
-    // 2. Find top 3
-    const top3 = Object.entries(counts)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 3)
-        .map(entry => entry[0]);
-
-    // 3. Ryd gamle markeringer (hvis funktionen kaldes igen)
-    rows.forEach(row => {
-        row.classList.remove("ip-top1", "ip-top2", "ip-top3");
-    });
-
-    // 4. Markér rækker efter deres IP's placering
-    rows.forEach(row => {
-        const cell = row.cells[0];
-        if (!cell) return;
-        const ip = cell.textContent.trim();
-
-        if (ip === top3[0]) row.classList.add("ip-top1");
-        else if (ip === top3[1]) row.classList.add("ip-top2");
-        else if (ip === top3[2]) row.classList.add("ip-top3");
-    });
-}
-
-
-
 async function fetchNewData() {
     try {
         const response = await fetch('/call-other-server');
@@ -347,5 +310,42 @@ table {
         alert('Noget gik galt');
     });
 });
+
+
+function highLightMistænkeligeIPer() {
+    const rows = Array.from(document.querySelectorAll("#logTable tbody tr"));
+    const counts = {};
+
+    // 1. Tæl IP'er
+    rows.forEach(row => {
+        const cell = row.cells[0]; // IP-kolonnen
+        if (!cell) return;
+        const ip = cell.textContent.trim();
+        counts[ip] = (counts[ip] || 0) + 1;
+    });
+
+    // 2. Find top 3
+    const top3 = Object.entries(counts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(entry => entry[0]);
+
+    // 3. Ryd gamle markeringer (hvis funktionen kaldes igen)
+    rows.forEach(row => {
+        row.classList.remove("ip-top1", "ip-top2", "ip-top3");
+    });
+
+    // 4. Markér rækker efter deres IP's placering
+    rows.forEach(row => {
+        const cell = row.cells[0];
+        if (!cell) return;
+        const ip = cell.textContent.trim();
+
+        if (ip === top3[0]) row.classList.add("ip-top1");
+        else if (ip === top3[1]) row.classList.add("ip-top2");
+        else if (ip === top3[2]) row.classList.add("ip-top3");
+    });
+}
+highLightMistænkeligeIPer();
 
 </script>
