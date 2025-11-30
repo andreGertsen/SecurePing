@@ -335,6 +335,7 @@ function highLightMistænkeligeIPer() {
 
     // 2. Find top 3
     const top3 = Object.entries(counts)
+    .filter(([ip, count]) => count > 10)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 3)
         .map(entry => entry[0]);
