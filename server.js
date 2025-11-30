@@ -16,6 +16,34 @@ app.use(express.static('public')); // til JS-filen på klienten
 app.use(express.json());
 
 
+// Rate limit konfiguration
+let rateLimit = 10; // maks antal requests per minut
+const clients = {}; // gemmer antal requests per IP
+
+// Funktion til at tjekke rate limit
+function checkRateLimit(ip) {
+    if (!clients[ip]) {
+        clients[ip] = 0;
+    }
+
+    if (clients[ip] >= rateLimit) {
+        return false; // overskredet
+    }
+
+    clients[ip] += 1;
+    return true; // ok
+}
+
+// Nulstil tællere hvert minut
+setInterval(() => {
+    for (let ip in clients) {
+        clients[ip] = 0;
+    }
+    console.log("Rate counters cleared");
+}, 60000);
+
+
+
 
 // Route til EJS-side
 app.get('/index', async (req, res) => {
@@ -83,6 +111,40 @@ app.post('/set-rate-limit', (req, res) => {
 
     // Her kan du sende rate videre til loadbalanceren
     // fx via en funktion: updateLoadBalancerRate(rate);
+
+    const data = JSON.stringify({rate});
+
+    const loadbalancer = {
+      hostname: '138.197.183.51',
+      port: 8080,
+      path: '/set-rate-limit',
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        'Content-length': Buffer.byteLength(data)
+      }
+    };
+
+    const forespørgsel = http.forespørgsel(loadbalancer, (response ) => {
+      let responseData = "";
+      forespørgsel.on('data', chunk => responseData += chunk);
+      response.on('end', () => {
+        res.json({
+          rate,
+          serverMessage: 'Rate limit opdateret på serveren',
+          loadbalancerResponse: responseData
+        });
+      });
+    });
+
+    forespørgsel.on('error', (err) => {
+      console.log('fejl', err.message);
+      res.status(500).json({error: 'Kunne ikke opdatere lb', details: err.message})
+    });
+
+    forespørgsel.write(data);
+    forespørgsel.end();
+
 
     res.json({ rate, message: 'Rate limit opdateret på serveren' });
 });
