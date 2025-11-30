@@ -102,6 +102,8 @@ async function fetchNewData() {
 // Hent data hvert minut
 setInterval(fetchNewData, 60000);
 
+document.addEventListener("DOMContentLoaded", highLightMistænkeligeIPer); // lav farve markering ved hjemmeside load
+
 // Hent første gang med det samme
 fetchNewData();
 
