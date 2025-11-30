@@ -108,39 +108,6 @@ app.post('/set-rate-limit', (req, res) => {
     }
 
     console.log('Ny rate limit modtaget:', rate);
-
-    const data = JSON.stringify({ rate });
-
-    const loadbalancer = {
-        hostname: '138.197.183.51',
-        port: 8080,
-        path: '/set-rate-limit',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(data)
-        }
-    };
-
-    const lbRequest = http.request(loadbalancer, (lbResponse) => {
-        let responseData = '';
-        lbResponse.on('data', chunk => responseData += chunk);
-        lbResponse.on('end', () => {
-            res.json({
-                rate,
-                serverMessage: 'Rate limit opdateret på serveren',
-                loadbalancerResponse: responseData
-            });
-        });
-    });
-
-    lbRequest.on('error', (err) => {
-        console.error('Fejl', err.message);
-        res.status(500).json({ error: 'Kunne ikke opdatere loadbalancer', details: err.message });
-    });
-
-    lbRequest.write(data);
-    lbRequest.end();
 });
 
 // Start server
