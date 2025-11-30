@@ -109,44 +109,38 @@ app.post('/set-rate-limit', (req, res) => {
 
     console.log('Ny rate limit modtaget:', rate);
 
-    // Her kan du sende rate videre til loadbalanceren
-    // fx via en funktion: updateLoadBalancerRate(rate);
-
-    const data = JSON.stringify({rate});
+    const data = JSON.stringify({ rate });
 
     const loadbalancer = {
-      hostname: '138.197.183.51',
-      port: 8080,
-      path: '/set-rate-limit',
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-        'Content-length': Buffer.byteLength(data)
-      }
+        hostname: '138.197.183.51',
+        port: 8080,
+        path: '/set-rate-limit',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(data)
+        }
     };
 
-    const forespørgsel = http.forespørgsel(loadbalancer, (response ) => {
-      let responseData = "";
-      forespørgsel.on('data', chunk => responseData += chunk);
-      response.on('end', () => {
-        res.json({
-          rate,
-          serverMessage: 'Rate limit opdateret på serveren',
-          loadbalancerResponse: responseData
+    const lbRequest = http.request(loadbalancer, (lbResponse) => {
+        let responseData = '';
+        lbResponse.on('data', chunk => responseData += chunk);
+        lbResponse.on('end', () => {
+            res.json({
+                rate,
+                serverMessage: 'Rate limit opdateret på serveren',
+                loadbalancerResponse: responseData
+            });
         });
-      });
     });
 
-    forespørgsel.on('error', (err) => {
-      console.log('fejl', err.message);
-      res.status(500).json({error: 'Kunne ikke opdatere lb', details: err.message})
+    lbRequest.on('error', (err) => {
+        console.error('Fejl', err.message);
+        res.status(500).json({ error: 'Kunne ikke opdatere loadbalancer', details: err.message });
     });
 
-    forespørgsel.write(data);
-    forespørgsel.end();
-
-
-    res.json({ rate, message: 'Rate limit opdateret på serveren' });
+    lbRequest.write(data);
+    lbRequest.end();
 });
 
 // Start server
