@@ -10,6 +10,7 @@ pm2 restart myapp
 const express = require('express');
 const app = express();
 const PORT = 3000;
+require('dotenv').config()
 
 app.set('view engine', 'ejs');
 app.use(express.static('public')); // til JS-filen på klienten
