@@ -141,15 +141,14 @@ fetchNewData();
             <input type="number" min="1" max="10000" id="rateLimit_ID"><button id="sætRateLimit_ID">Udfør</button>
         </div>
         <br>
-        <div id="sendDriftsmiddelelse_ID">
+        <div id="sendDriftsmiddelelseContainer_ID">
             <span><b>Send driftsmeddelelse</b></span>
-            <textarea rows="3">
-            </textarea>
+            <textarea rows="3" id="beskedIndhold_ID"></textarea>
             <span>Telefon</span><input type="checkbox">
             <br>
             <span>E-mail</span><input type="checkbox">
             <br><br>
-            <button>Send</button>
+            <button id="sendDriftsmeddelelser_ID">Send</button>
         </div>
 
         <div id="rateLimitOpdateret_ID">
@@ -246,7 +245,7 @@ table {
     width: 25%;
     font-size: 85%;
 }
-#sendDriftsmiddelelse_ID{
+#sendDriftsmiddelelseContainer_ID{
     display: inline-block;
     background-color: white;
     border: 1px solid gray;
@@ -257,7 +256,7 @@ table {
     width: 25%;
     font-size: 85%;
 }
-#sendDriftsmiddelelse_ID textarea{
+#sendDriftsmiddelelseContainer_ID textarea{
     width: 98%;
     border: 1px solid gray;
     outline: none;
@@ -343,6 +342,7 @@ table {
 
 
 // ---------------------------------------------------------------------------- //
+// HIGHLIGHT IP ADRESSERNE
 
 function highLightMistænkeligeIPer() {
     const rows = Array.from(document.querySelectorAll("#logTable tbody tr"));
@@ -380,4 +380,35 @@ function highLightMistænkeligeIPer() {
         else if (ip === top3[2]) row.classList.add("ip-top3");
     });
 }
+
+// ---------------------------------------------------------- //
+// SEND DRIFTSMEDDELELSE //
+
+document.getElementById('sendDriftsmeddelelser_ID').addEventListener('click', async () => {
+    let besked = document.getElementById("beskedIndhold_ID").innerHTML;
+
+    try {
+        const response = await fetch('/send-sms', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ besked })
+        });
+        const data = await response.json();
+        console.log(data);
+        if (data.success) {
+            alert('SMS sendt!');
+        } else {
+            alert('Fejl: ' + data.error);
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Noget gik galt!');
+    }
+});
+
+
+
+
 </script>

@@ -110,6 +110,23 @@ app.post('/set-rate-limit', (req, res) => {
     console.log('Ny rate limit modtaget:', rate);
 });
 
+const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+
+app.post('/send-sms', async (req, res) => {
+    const { besked } = req.body;
+    try {
+        const message = await client.messages.create({
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: process.env.TWILIO_PHONE_RECIPIENT,
+            body: besked
+        });
+        res.json({ success: true, messageSid: message.sid });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running at http://localhost:${PORT}`);
