@@ -319,7 +319,7 @@ table {
             alert("Ugyldigt input");
         }
         // Post den nye rate limit til loadbalanceren
-        fetch('/set-rate-limit', {
+        fetch('https://138.197.183.51:8080/set-rate-limit', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ rate: parseInt(rate) }) // sender rate som json
