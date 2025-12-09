@@ -151,6 +151,10 @@ fetchNewData();
             <br><br>
             <button>Send</button>
         </div>
+
+        <div id="rateLimitOpdateret_ID">
+            <span>Rate limit er opdatere</span>
+        </div>
     </body>
 </html>
 
@@ -290,28 +294,39 @@ table {
 .ip-top3 {
     background-color: yellow;
 }
+#rateLimitOpdateret_ID{
+    display: none;
+    position: absolute;
+    border: 1px solid gray;
+    background-color: white;
+    font-family: arial;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 </style>
 
 
 <script>
+    // RATE LIMIT FUNKTION //
     document.getElementById('sætRateLimit_ID').addEventListener('click', () => {
-    const rate = document.getElementById('rateLimit_ID').value;
+    const rate = document.getElementById('rateLimit_ID').value; // får tal fra input
 
-    console.log("soy");
-
+    // Post den nye rate limit til loadbalanceren
     fetch('/set-rate-limit', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ rate: parseInt(rate) }) // sender rate som JSON
+        body: JSON.stringify({ rate: parseInt(rate) }) // sender rate som json
     })
-    .then(response => {
+    .then(response => { // vent på response
         if (!response.ok) throw new Error('Fejl ved opdatering');
         return response.json();
     })
-    .then(data => {
+    .then(data => { // 
+        document.getElementById("").style.display = "inline-block";
         alert('Rate limit opdateret: ' + data.rate);
     })
     .catch(err => {
@@ -320,6 +335,8 @@ table {
     });
 });
 
+
+// ---------------------------------------------------------------------------- //
 
 function highLightMistænkeligeIPer() {
     const rows = Array.from(document.querySelectorAll("#logTable tbody tr"));
@@ -357,6 +374,4 @@ function highLightMistænkeligeIPer() {
         else if (ip === top3[2]) row.classList.add("ip-top3");
     });
 }
-
-
 </script>
