@@ -319,11 +319,12 @@ table {
             alert("Ugyldigt input");
         }
         // Post den nye rate limit til loadbalanceren
-        fetch('https://138.197.183.51:8080/set-rate-limit', {
+        fetch('https://understory.live/index/set-rate-limit', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ rate: parseInt(rate) }) // sender rate som json
+            body: JSON.stringify({ rate: parseInt(rate) })
         })
+
         .then(response => { // vent på response // 
             if (!response.ok) throw new Error('Fejl ved opdatering');
             return response.json();
@@ -336,6 +337,7 @@ table {
         {
             console.error(err);
             alert('Noget gik galt');
+            return;
         });
     });
 
