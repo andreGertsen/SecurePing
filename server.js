@@ -112,22 +112,27 @@ app.post('/set-rate-limit', (req, res) => {
     console.log('Ny rate limit modtaget:', rate);
 });
 
+const twilio = require("twilio");
+require("dotenv").config();
+
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
-app.post('/send-sms', async (req, res) => {
-    const { besked } = req.body;
+async function sendSMS(besked, modtager) {
     try {
         const message = await client.messages.create({
             from: process.env.TWILIO_PHONE_NUMBER,
-            to: process.env.TWILIO_PHONE_RECIPIENT,
-            body: besked
+            to: modtager,       // Dynamisk modtager
+            body: besked,
         });
-        res.json({ success: true, messageSid: message.sid });
+        console.log("SMS sendt til:", modtager, "SID:", message.sid);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: err.message });
+        console.error("Fejl ved SMS:", err);
     }
-});
+}
+
+// Eksempel:
+sendSMS("Hej, dette er en test", "+4542373620");
+sendSMS("Hej, en anden test", "+4512345678");
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
