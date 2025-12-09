@@ -387,8 +387,6 @@ function highLightMistænkeligeIPer() {
 document.getElementById('sendDriftsmeddelelser_ID').addEventListener('click', async () => {
     let besked = document.getElementById("beskedIndhold_ID").innerHTML;
 
-    besked = "nigga";
-
     try {
         const response = await fetch('/send-sms', {
             method: 'POST',
