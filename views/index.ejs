@@ -319,7 +319,7 @@ table {
             alert("Ugyldigt input");
         }
         // Post den nye rate limit til loadbalanceren
-        fetch('https://understory.live/index/set-rate-limit', {
+        fetch('https://understory.live/set-rate-limit', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ rate: parseInt(rate) })
