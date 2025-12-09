@@ -143,7 +143,7 @@ fetchNewData();
         <br>
         <div id="sendDriftsmiddelelseContainer_ID">
             <span><b>Send driftsmeddelelse</b></span>
-            <textarea rows="3" id="beskedIndhold_ID"></textarea>
+            <input rows="3" id="beskedIndhold_ID"></input>
             <span>Telefon</span><input type="checkbox">
             <br>
             <span>E-mail</span><input type="checkbox">
@@ -385,7 +385,7 @@ function highLightMistænkeligeIPer() {
 // SEND DRIFTSMEDDELELSE //
 
 document.getElementById('sendDriftsmeddelelser_ID').addEventListener('click', async () => {
-    let besked = document.getElementById("beskedIndhold_ID").innerHTML;
+    let besked = document.getElementById("beskedIndhold_ID").value;
 
     try {
         const response = await fetch('/send-sms', {
