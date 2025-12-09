@@ -130,7 +130,6 @@ async function sendSMS(besked, modtager) {
 
 // Eksempel:
 sendSMS("Hej, dette er en test", "+4542373620");
-sendSMS("Hej, en anden test", "+4512345678");
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
