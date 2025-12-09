@@ -110,26 +110,41 @@ app.post('/set-rate-limit', (req, res) => {
     console.log('Ny rate limit modtaget:', rate);
 });
 
-const twilio = require("twilio");
-require("dotenv").config();
+// Twilio klient
+const client = twilio(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN
+);
 
-const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
-async function sendSMS(besked, modtager) {
+// ENDPOINT SOM MODTAGER POST FRA FRONTEND
+app.post("/send-sms", async (req, res) => {
+  const HARD_CODED_RECIPIENT = "+4542373620";
+  
+    const { besked } = req.body;   // <-- Her modtager vi "besked" fra frontend
+    const modtager = process.env.TWILIO_PHONE_RECIPIENT; // Eller dynamisk senere
+
+    console.log("Modtaget besked:", besked);
+
     try {
         const message = await client.messages.create({
             from: process.env.TWILIO_PHONE_NUMBER,
-            to: modtager,       // Dynamisk modtager
+            to: HARD_CODED_RECIPIENT,
             body: besked,
         });
-        console.log("SMS sendt til:", modtager, "SID:", message.sid);
-    } catch (err) {
-        console.error("Fejl ved SMS:", err);
-    }
-}
 
-// Eksempel:
-sendSMS("Hej, dette er en test", "+4542373620");
+        res.json({ 
+            success: true, 
+            sid: message.sid,
+            besked: "SMS sendt!"
+        });
+
+    } catch (error) {
+        console.error("Twilio fejl:", error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
