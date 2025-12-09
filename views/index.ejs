@@ -311,29 +311,33 @@ table {
 <script>
     // RATE LIMIT FUNKTION //
     document.getElementById('sætRateLimit_ID').addEventListener('click', () => {
-    const rate = document.getElementById('rateLimit_ID').value; // får tal fra input
+        const rate = document.getElementById('rateLimit_ID').value; // får tal fra input
 
-    // Post den nye rate limit til loadbalanceren
-    fetch('/set-rate-limit', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ rate: parseInt(rate) }) // sender rate som json
-    })
-    .then(response => { // vent på response
-        if (!response.ok) throw new Error('Fejl ved opdatering');
-        return response.json();
-    })
-    .then(data => { // 
-        document.getElementById("").style.display = "inline-block";
-        alert('Rate limit opdateret: ' + data.rate);
-    })
-    .catch(err => {
-        console.error(err);
-        alert('Noget gik galt');
+        // tjekker om input er gyldigt
+        if(rate <= 0 || isNaN(rate))
+        {
+            alert("Ugyldigt input");
+        }
+        // Post den nye rate limit til loadbalanceren
+        fetch('/set-rate-limit', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ rate: parseInt(rate) }) // sender rate som json
+        })
+        .then(response => { // vent på response // 
+            if (!response.ok) throw new Error('Fejl ved opdatering');
+            return response.json();
+        })
+        .then(data => { 
+            document.getElementById("rateLimitOpdateret_ID").style.display = "inline-block";
+            alert('Rate limit opdateret: ' + data.rate);
+        })
+        .catch(err =>
+        {
+            console.error(err);
+            alert('Noget gik galt');
+        });
     });
-});
 
 
 // ---------------------------------------------------------------------------- //
