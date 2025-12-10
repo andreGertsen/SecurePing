@@ -153,9 +153,6 @@ fetchNewData();
             <button id="sendDriftsmeddelelser_ID">Send</button>
         </div>
 
-        <div id="rateLimitOpdateret_ID">
-            <span>Rate limit er opdatere</span>
-        </div>
     </body>
 </html>
 
@@ -295,16 +292,7 @@ table {
 .ip-top3 {
     background-color: yellow;
 }
-#rateLimitOpdateret_ID{
-    display: none;
-    position: absolute;
-    border: 1px solid gray;
-    background-color: white;
-    font-family: arial;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+
 
 </style>
 
@@ -331,7 +319,6 @@ table {
             return response.json();
         })
         .then(data => { 
-            document.getElementById("rateLimitOpdateret_ID").style.display = "inline-block";
             alert('Rate limit opdateret: ' + data.rate);
         })
         .catch(err =>
