@@ -123,16 +123,17 @@ fetchNewData();
         <div>
         <div id="nøgletalContainer_ID">
             <div>
-                <span><b>Gennemsnit Roundtrip time</b></span>
-                <br>
-                <span id="genRTT_ID">ms</span>
-            </div>
-            <br>
-            <div>
-                <span><b>Gennemsnit Responstid</b></span>
-                <br>
-                <span id="genRes_ID">ms</span>
-            </div>
+    <span><b>Gennemsnit Roundtrip time</b></span>
+    <br>
+    <span id="genRTT_ID"><%= avgRTT.toFixed(2) %> ms</span>
+</div>
+<br>
+<div>
+    <span><b>Gennemsnit Responstid</b></span>
+    <br>
+    <span id="genRes_ID"><%= avgResp.toFixed(2) %> ms</span>
+</div>
+
         </div>
         <br>
         <div id="rateLimitKonfigContainer_ID">
