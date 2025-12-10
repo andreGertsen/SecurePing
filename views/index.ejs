@@ -59,7 +59,8 @@ function insertRow(entry) {
 function highlightSameIP(ip) {
     const rows = document.querySelectorAll("#logTable tbody tr");
 
-    selectedIPs = ""; // nulstil hver gang man klikker en ny række
+    // Nulstil selection
+    selectedIPs = [];
 
     rows.forEach(row => {
         row.classList.remove("highlight");
@@ -67,12 +68,13 @@ function highlightSameIP(ip) {
         const rowIP = row.querySelector(".ip")?.textContent;
         if (rowIP === ip) {
             row.classList.add("highlight");
+            selectedIPs = [rowIP]; // sæt den valgte IP i array
         }
-        selectedIPs = rowIP; // sæt IP der skal blokkeres
     });
 
     console.log("Valgte IP'er:", selectedIPs);
 }
+
 
 async function fetchNewData() {
     try {
@@ -344,42 +346,28 @@ table {
 // ---------------------------------------------------------------------------- //
 // HIGHLIGHT IP ADRESSERNE
 
-function highLightMistænkeligeIPer() {
-    const rows = Array.from(document.querySelectorAll("#logTable tbody tr"));
-    const counts = {};
+document.getElementById('blokerIPButton_ID').addEventListener('click', () => {
+    if (selectedIPs.length === 0) {
+        alert("Ingen IP markeret!");
+        return;
+    }
 
-    // 1. Tæl IP'er
-    rows.forEach(row => {
-        const ipCell = row.querySelector(".ip");  // ← korrekt kolonne
-        if (!ipCell) return;
-        const ip = ipCell.textContent.trim();
-        counts[ip] = (counts[ip] || 0) + 1;
+    fetch("/forward-to-loadbalancer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ips: selectedIPs })
+    })
+    .then(res => res.json())
+    .then(resData => {
+        console.log("Loadbalancer svar:", resData);
+        alert("IP'er blokeret: " + selectedIPs.join(", "));
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Noget gik galt ved blokering af IP");
     });
+});
 
-    // 2. Find top 3
-    const top3 = Object.entries(counts)
-    .filter(([ip, count]) => count > 10)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 3)
-        .map(entry => entry[0]);
-
-    // 3. Ryd gamle farver
-    rows.forEach(row => {
-        row.classList.remove("ip-top1", "ip-top2", "ip-top3");
-    });
-
-    // 4. Farv rækkerne
-    rows.forEach(row => {
-        const ipCell = row.querySelector(".ip");
-        if (!ipCell) return;
-
-        const ip = ipCell.textContent.trim();
-
-        if (ip === top3[0]) row.classList.add("ip-top1");
-        else if (ip === top3[1]) row.classList.add("ip-top2");
-        else if (ip === top3[2]) row.classList.add("ip-top3");
-    });
-}
 
 // ---------------------------------------------------------- //
 // SEND DRIFTSMEDDELELSE //
@@ -408,19 +396,6 @@ document.getElementById('sendDriftsmeddelelser_ID').addEventListener('click', as
     }
 });
 */
-
-
-const ipArray = ["1.2.3.4", "5.6.7.8", ""];
-
-fetch("/forward-to-loadbalancer", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ips: ipArray }) // send array under "ips"
-})
-.then(res => res.json())
-.then(resData => console.log("Loadbalancer svar:", resData))
-.catch(err => console.error(err));
-
 
 
 </script>
