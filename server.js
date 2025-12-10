@@ -151,6 +151,7 @@ const client = twilio(
 
 
 // ENDPOINT SOM MODTAGER POST FRA FRONTEND
+/*
 app.post("/send-sms", async (req, res) => {
   const HARD_CODED_RECIPIENT = "+4542373620";
   
@@ -177,6 +178,7 @@ app.post("/send-sms", async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 });
+*/
 
 
 // Start server
