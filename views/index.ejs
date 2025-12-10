@@ -123,17 +123,16 @@ fetchNewData();
         <div>
         <div id="nøgletalContainer_ID">
             <div>
-    <span><b>Gennemsnit Roundtrip time</b></span>
-    <br>
-    <span id="genRTT_ID"><%= avgRTT.toFixed(2) %> ms</span>
-</div>
-<br>
-<div>
-    <span><b>Gennemsnit Responstid</b></span>
-    <br>
-    <span id="genRes_ID"><%= avgResp.toFixed(2) %> ms</span>
-</div>
-
+                <span><b>Gennemsnit Roundtrip time</b></span>
+                <br>
+                <span id="genRTT_ID">ms</span>
+            </div>
+            <br>
+            <div>
+                <span><b>Gennemsnit Responstid</b></span>
+                <br>
+                <span id="genRes_ID">ms</span>
+            </div>
         </div>
         <br>
         <div id="rateLimitKonfigContainer_ID">
@@ -299,38 +298,41 @@ table {
 
 
 <script>
-  // RATE LIMIT FUNKTION //
-document.getElementById('sætRateLimit_ID').addEventListener('click', () => {
-    const rate = document.getElementById('rateLimit_ID').value; // får tal fra input
+    // RATE LIMIT FUNKTION //
+    document.getElementById('sætRateLimit_ID').addEventListener('click', () => {
+        const rate = document.getElementById('rateLimit_ID').value; // får tal fra input
 
-    // tjekker om input er gyldigt
-    if(rate <= 0 || isNaN(rate)) {
-        alert("Ugyldigt input");
-        return;
-    }
-    
-    // Post den nye rate limit til loadbalanceren
-    fetch('https://understory.live/set-rate-limit', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ rate: parseInt(rate) })
-    })
-    .then(response => {
-        if (!response.ok) throw new Error('Fejl ved opdatering');
-        return response.json();
-    })
-    .then(data => { 
-        alert('Rate limit opdateret: ' + data.rate);
-    })
-    .catch(err => {
-        console.error(err);
-        alert('Noget gik galt');
-        return;
+        // tjekker om input er gyldigt
+        if(rate <= 0 || isNaN(rate))
+        {
+            alert("Ugyldigt input");
+        }
+        // Post den nye rate limit til loadbalanceren
+        fetch('https://understory.live/set-rate-limit', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ rate: parseInt(rate) })
+        })
+
+        .then(response => { // vent på response // 
+            if (!response.ok) throw new Error('Fejl ved opdatering');
+            return response.json();
+        })
+        .then(data => { 
+            alert('Rate limit opdateret: ' + data.rate);
+        })
+        .catch(err =>
+        {
+            console.error(err);
+            alert('Noget gik galt');
+            return;
+        });
     });
-});
+
 
 // ---------------------------------------------------------------------------- //
 // HIGHLIGHT IP ADRESSERNE
+
 document.getElementById('blokerIPButton_ID').addEventListener('click', () => {
     if (selectedIPs.length === 0) {
         alert("Ingen IP markeret!");
@@ -352,28 +354,6 @@ document.getElementById('blokerIPButton_ID').addEventListener('click', () => {
         alert("Noget gik galt ved blokering af IP");
     });
 });
-
-// ---------------------------------------------------------------------------- //
-// FETCH Gennemsnitlige RTT og Responstid fra /stats endpoint
-async function fetchStats() {
-    try {
-        const res = await fetch('/stats');
-        if (!res.ok) throw new Error('Fejl ved hentning af stats');
-        const data = await res.json();
-
-        document.getElementById('genRTT_ID').textContent = data.avgRTT.toFixed(2) + " ms";
-        document.getElementById('genRes_ID').textContent = data.avgResp.toFixed(2) + " ms";
-    } catch (err) {
-        console.error("Kunne ikke hente stats:", err);
-    }
-}
-
-// Hent første gang ved load
-fetchStats();
-
-// Opdater frontend hvert minut
-setInterval(fetchStats, 60000);
-
 
 
 // ---------------------------------------------------------- //
