@@ -103,11 +103,11 @@ app.get('/call-other-server', async (req, res) => {
 
 // Endpoint som modtager data fra frontend og sender videre til load balancer
 app.post('/forward-to-loadbalancer', async (req, res) => {
-    const { data } = req.body; // data fra frontend
-    const LOADBALANCER_URL = "http://138.197.183.51:8080"; 
+    const { ips } = req.body; // forvent et array af IP'er
+    const LOADBALANCER_URL = "http://138.197.183.51:8080/receive-post"; // OBS: tilføj /receive-post
 
-    if (!data) {
-        return res.status(400).json({ error: "Ingen data modtaget" });
+    if (!ips || !Array.isArray(ips)) {
+        return res.status(400).json({ error: "Forventet et array af IP-adresser under 'ips'" });
     }
 
     try {
@@ -115,13 +115,10 @@ app.post('/forward-to-loadbalancer', async (req, res) => {
         const response = await fetch(LOADBALANCER_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            body: JSON.stringify({ ips }) // send som { ips: [...] }
         });
 
-        // Hvis loadbalancer returnerer JSON
         const result = await response.json(); 
-
-        // Send svar tilbage til frontend
         res.json({ success: true, response: result });
 
     } catch (error) {
@@ -129,6 +126,7 @@ app.post('/forward-to-loadbalancer', async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 });
+
 
 
 
