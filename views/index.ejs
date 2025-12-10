@@ -410,17 +410,18 @@ document.getElementById('sendDriftsmeddelelser_ID').addEventListener('click', as
 
 
 
-// fx fra en form eller en knap
-const dataFraFrontend = { message: "Hej loadbalancer!", user: "Test" };
+// Eksempel: array af IP-adresser, som skal blokeres
+const ipArray = ["1.2.3.4", "5.6.7.8", "123.45.67.89"];
 
 fetch("/forward-to-loadbalancer", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ data: dataFraFrontend })
+    body: JSON.stringify({ ips: ipArray }) // send som "ips" key
 })
 .then(res => res.json())
 .then(resData => console.log("Loadbalancer svar:", resData))
 .catch(err => console.error(err));
+
 
 
 </script>
