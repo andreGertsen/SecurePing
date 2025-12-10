@@ -410,5 +410,17 @@ document.getElementById('sendDriftsmeddelelser_ID').addEventListener('click', as
 
 
 
+// fx fra en form eller en knap
+const dataFraFrontend = { message: "Hej loadbalancer!", user: "Test" };
+
+fetch("/forward-to-loadbalancer", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ data: dataFraFrontend })
+})
+.then(res => res.json())
+.then(resData => console.log("Loadbalancer svar:", resData))
+.catch(err => console.error(err));
+
 
 </script>

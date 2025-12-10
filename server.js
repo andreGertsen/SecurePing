@@ -85,9 +85,9 @@ app.get('/call-other-server', async (req, res) => {
         try {
           const resp = await fetch(`http://ip-api.com/json/${entry.ip}?fields=countryCode`);
           const geo = await resp.json();
-          entry.country = geo.countryCode || "UNKNOWN";
+          entry.country = geo.countryCode || "Ukendt";
         } catch {
-          entry.country = "UNKNOWN";
+          entry.country = "Ukendt";
         }
         return entry;
       })
@@ -101,6 +101,37 @@ app.get('/call-other-server', async (req, res) => {
 });
 
 
+// Endpoint som modtager data fra frontend og sender videre til load balancer
+app.post('/forward-to-loadbalancer', async (req, res) => {
+    const { data } = req.body; // data fra frontend
+    const LOADBALANCER_URL = "http://138.197.183.51:8080"; 
+
+    if (!data) {
+        return res.status(400).json({ error: "Ingen data modtaget" });
+    }
+
+    try {
+        // POST til load balancer
+        const response = await fetch(LOADBALANCER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        // Hvis loadbalancer returnerer JSON
+        const result = await response.json(); 
+
+        // Send svar tilbage til frontend
+        res.json({ success: true, response: result });
+
+    } catch (error) {
+        console.error("Fejl ved POST til loadbalancer:", error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+
+
 app.post('/set-rate-limit', (req, res) => {
     const { rate } = req.body;
 
@@ -111,14 +142,14 @@ app.post('/set-rate-limit', (req, res) => {
     console.log('Ny rate limit modtaget:', rate);
 });
 
+
+
 const twilio = require("twilio");
 // Twilio klient
 const client = twilio(
     process.env.TWILIO_ACCOUNT_SID,
     process.env.TWILIO_AUTH_TOKEN
 );
-
-
 
 
 // ENDPOINT SOM MODTAGER POST FRA FRONTEND
