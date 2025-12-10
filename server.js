@@ -101,6 +101,23 @@ app.get('/call-other-server', async (req, res) => {
 });
 
 
+let avgRTT = 0;
+let avgRes = 0;
+
+app.get('/receive-stats', (req, res) => {
+    avgRTT = req.query.avgRTT || 0;
+    avgRes = req.query.avgRes || 0;
+    res.send({ success: true });
+});
+
+// I EJS template kan du bruge disse variabler:
+app.get('/index', async (req, res) => {
+    // eksisterende logik ...
+    res.render('index', { dataModtaget: enriched, avgRTT, avgRes });
+});
+
+
+
 // Endpoint som modtager data fra frontend og sender videre til load balancer
 app.post('/forward-to-loadbalancer', async (req, res) => {
     const { ips } = req.body; // forvent et array af IP'er
