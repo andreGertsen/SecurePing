@@ -152,7 +152,7 @@ const client = twilio(
 
 // ENDPOINT SOM MODTAGER POST FRA FRONTEND
 app.post("/send-sms", async (req, res) => {
-  const HARD_CODED_RECIPIENT = "+4540168369";
+  const HARD_CODED_RECIPIENT = "+4542373620";
   
     const { besked } = req.body;   // <-- Her modtager vi "besked" fra frontend
     // const modtager = process.env.TWILIO_PHONE_RECIPIENT; // Eller dynamisk senere
