@@ -1,6 +1,6 @@
 body{
         margin: 0;
-        background-image: url('../images/wallpaper.jpg');
+        background-image: url('wallpaper.jpg');
         background-size: cover;
     }
     @font-face
