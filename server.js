@@ -1,12 +1,3 @@
-/* 
-HVORDAN MAN PULLER OG GENSTARTER PÅ DROPLETTEN
-cd SecurePing
-git pull
-pm2 restart myapp
-*/
-
-
-// app.js
 const express = require('express');
 const app = express();
 const PORT = 3000;
@@ -127,9 +118,6 @@ app.post('/forward-to-loadbalancer', async (req, res) => {
     }
 });
 
-
-
-
 app.post('/set-rate-limit', (req, res) => {
     const { rate } = req.body;
 
@@ -140,8 +128,6 @@ app.post('/set-rate-limit', (req, res) => {
     console.log('Ny rate limit modtaget:', rate);
 });
 
-
-
 const twilio = require("twilio");
 // Twilio klient
 const client = twilio(
@@ -151,19 +137,15 @@ const client = twilio(
 
 
 // ENDPOINT SOM MODTAGER POST FRA FRONTEND
-/*
-app.post("/send-sms", async (req, res) => {
-  const HARD_CODED_RECIPIENT = "+4542373620";
-  
-    const { besked } = req.body;   // <-- Her modtager vi "besked" fra frontend
-    // const modtager = process.env.TWILIO_PHONE_RECIPIENT; // Eller dynamisk senere
+app.post("/send-sms", async (req, res) => {  
+    const { besked } = req.body;
 
     console.log("Modtaget besked:", besked);
 
     try {
         const message = await client.messages.create({
             from: process.env.TWILIO_PHONE_NUMBER,
-            to: HARD_CODED_RECIPIENT,
+            to: RECIPIENTS,
             body: besked,
         });
 
@@ -178,7 +160,6 @@ app.post("/send-sms", async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 });
-*/
 
 
 // Start server

@@ -1,0 +1,135 @@
+body{
+        margin: 0;
+        background-image: url('wallpaper.jpg');
+        background-size: cover;
+    }
+    @font-face
+    {
+        font-family: input mono;
+        src: url(/public/InputMono-Regular.ttf);
+    }
+    #topNavBar_ID{
+        display: inline-block;
+        margin: 0;
+        width: 100%;
+        background-color: blue;
+    }
+    h1{
+        color: #ffffff;
+        /* font-family: monospace;*/
+        font-family: input mono;
+        font-weight: normal;
+        margin: 0;
+        text-align: center;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        font-size: 250%;
+    }
+    h2{
+        font-family: input mono;
+        font-size: 80%;
+        font-weight: normal;
+        margin: 1% 0% 1% 2%;
+    }
+    
+    #trafficListContainer_ID{
+        background-color: #ffffff;
+        display: inline-block;
+        border: 1px solid gray;
+        height: 400px;
+        overflow-y: auto;
+        margin-left: 2%;
+        margin-top: 0%;
+        float: left;
+    }
+    
+    table, td, th {
+  border-left: 1px solid gray;
+  padding: 1px 20px 1px 20px;
+   font-family: arial;
+   font-size: 90%;
+ 
+}
+tr:hover {
+  border-left: 1px solid;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+}
+#blokerIPButton_ID{
+    background-color: blue;
+    color: white;
+    font-family: input mono;
+    outline: none;
+    border: none;
+    display: inline-block;
+    width: 21.5%;
+    margin-left: 2%;
+    margin-top: 1%;
+}
+#blokerIPButton_ID:hover{
+    background-color: red;
+    cursor: pointer;
+}
+#nøgletalContainer_ID{
+    display: inline-block;
+    background-color: white;
+    border: 1px solid gray;
+    font-family: arial;
+    margin-top: 0%;
+    margin-left: 2%;
+    padding: 0.75%;
+    width: 25%;
+    font-size: 85%;
+}
+#sendDriftsmiddelelseContainer_ID{
+    display: inline-block;
+    background-color: white;
+    border: 1px solid gray;
+    font-family: arial;
+    margin-top: 2%;
+    margin-left: 2%;
+    padding: 0.75%;
+    width: 25%;
+    font-size: 85%;
+}
+#sendDriftsmiddelelseContainer_ID textarea{
+    width: 98%;
+    border: 1px solid gray;
+    outline: none;
+    font-family: arial;
+}
+#rateLimitKonfigContainer_ID{
+    display: inline-block;
+    background-color: white;
+    border: 1px solid gray;
+    font-family: arial;
+    margin-top: 2%;
+    margin-left: 2%;
+    padding: 0.75%;
+    width: 25%;
+    font-size: 85%;
+}
+#rateLimitKonfigContainer_ID input{
+    outline: none;
+    font-family: arial;
+}
+
+.highlight {
+    background-color: lightgray;
+}
+.ip-top1 {
+    background-color: red;
+    color: white;
+}
+
+.ip-top2 {
+    background-color: orange;
+}
+
+.ip-top3 {
+    background-color: yellow;
+}
