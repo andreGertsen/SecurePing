@@ -135,7 +135,7 @@ const client = twilio(
     process.env.TWILIO_AUTH_TOKEN
 );
 
-
+/*
 // ENDPOINT SOM MODTAGER POST FRA FRONTEND
 app.post("/send-sms", async (req, res) => {  
     const { besked } = req.body;
@@ -160,7 +160,7 @@ app.post("/send-sms", async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 });
-
+*/
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
