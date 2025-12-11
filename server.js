@@ -127,7 +127,7 @@ app.post('/set-rate-limit', (req, res) => {
 
     console.log('Ny rate limit modtaget:', rate);
 });
-
+/*
 const twilio = require("twilio");
 // Twilio klient
 const client = twilio(
@@ -135,7 +135,7 @@ const client = twilio(
     process.env.TWILIO_AUTH_TOKEN
 );
 
-/*
+
 // ENDPOINT SOM MODTAGER POST FRA FRONTEND
 app.post("/send-sms", async (req, res) => {  
     const { besked } = req.body;
